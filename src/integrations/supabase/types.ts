@@ -14,6 +14,157 @@ export type Database = {
   }
   public: {
     Tables: {
+      attendance: {
+        Row: {
+          attendance_status: string
+          created_at: string
+          id: string
+          notes: string | null
+          participant_age: number | null
+          participant_gender: string | null
+          participant_name: string
+          participant_phone: string | null
+          training_session_id: string
+        }
+        Insert: {
+          attendance_status?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          participant_age?: number | null
+          participant_gender?: string | null
+          participant_name: string
+          participant_phone?: string | null
+          training_session_id: string
+        }
+        Update: {
+          attendance_status?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          participant_age?: number | null
+          participant_gender?: string | null
+          participant_name?: string
+          participant_phone?: string | null
+          training_session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_training_session_id_fkey"
+            columns: ["training_session_id"]
+            isOneToOne: false
+            referencedRelation: "training_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      modules: {
+        Row: {
+          created_at: string
+          description: string | null
+          difficulty_level: string
+          duration_hours: number | null
+          id: string
+          is_active: boolean
+          learning_objectives: string[] | null
+          name: string
+          parent_module_id: string | null
+          prerequisites: string[] | null
+          sort_order: number | null
+          updated_at: string
+          value_chain: Database["public"]["Enums"]["value_chain"]
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          difficulty_level?: string
+          duration_hours?: number | null
+          id?: string
+          is_active?: boolean
+          learning_objectives?: string[] | null
+          name: string
+          parent_module_id?: string | null
+          prerequisites?: string[] | null
+          sort_order?: number | null
+          updated_at?: string
+          value_chain: Database["public"]["Enums"]["value_chain"]
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          difficulty_level?: string
+          duration_hours?: number | null
+          id?: string
+          is_active?: boolean
+          learning_objectives?: string[] | null
+          name?: string
+          parent_module_id?: string | null
+          prerequisites?: string[] | null
+          sort_order?: number | null
+          updated_at?: string
+          value_chain?: Database["public"]["Enums"]["value_chain"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "modules_parent_module_id_fkey"
+            columns: ["parent_module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      photos: {
+        Row: {
+          caption: string | null
+          created_at: string
+          file_name: string
+          file_path: string
+          file_size: number | null
+          id: string
+          mime_type: string | null
+          training_session_id: string
+          uploaded_by: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          id?: string
+          mime_type?: string | null
+          training_session_id: string
+          uploaded_by: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          id?: string
+          mime_type?: string | null
+          training_session_id?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "photos_training_session_id_fkey"
+            columns: ["training_session_id"]
+            isOneToOne: false
+            referencedRelation: "training_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "photos_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           assigned_value_chains:
@@ -62,6 +213,149 @@ export type Database = {
           updated_at?: string
           user_id?: string
           ward?: string | null
+        }
+        Relationships: []
+      }
+      trainer_modules: {
+        Row: {
+          assigned_at: string
+          certification_status: string
+          certified_at: string | null
+          competency_level: string
+          id: string
+          module_id: string
+          trainer_id: string
+        }
+        Insert: {
+          assigned_at?: string
+          certification_status?: string
+          certified_at?: string | null
+          competency_level?: string
+          id?: string
+          module_id: string
+          trainer_id: string
+        }
+        Update: {
+          assigned_at?: string
+          certification_status?: string
+          certified_at?: string | null
+          competency_level?: string
+          id?: string
+          module_id?: string
+          trainer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trainer_modules_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trainer_modules_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      training_sessions: {
+        Row: {
+          actual_participants: number | null
+          completion_notes: string | null
+          constituency: Database["public"]["Enums"]["constituency"]
+          created_at: string
+          description: string | null
+          expected_participants: number | null
+          gps_latitude: number | null
+          gps_longitude: number | null
+          id: string
+          scheduled_date: string
+          scheduled_time: string
+          status: string
+          supervisor_comments: string | null
+          title: string
+          trainer_id: string
+          updated_at: string
+          value_chain: Database["public"]["Enums"]["value_chain"]
+          venue: string
+          ward: string
+        }
+        Insert: {
+          actual_participants?: number | null
+          completion_notes?: string | null
+          constituency: Database["public"]["Enums"]["constituency"]
+          created_at?: string
+          description?: string | null
+          expected_participants?: number | null
+          gps_latitude?: number | null
+          gps_longitude?: number | null
+          id?: string
+          scheduled_date: string
+          scheduled_time: string
+          status?: string
+          supervisor_comments?: string | null
+          title: string
+          trainer_id: string
+          updated_at?: string
+          value_chain: Database["public"]["Enums"]["value_chain"]
+          venue: string
+          ward: string
+        }
+        Update: {
+          actual_participants?: number | null
+          completion_notes?: string | null
+          constituency?: Database["public"]["Enums"]["constituency"]
+          created_at?: string
+          description?: string | null
+          expected_participants?: number | null
+          gps_latitude?: number | null
+          gps_longitude?: number | null
+          id?: string
+          scheduled_date?: string
+          scheduled_time?: string
+          status?: string
+          supervisor_comments?: string | null
+          title?: string
+          trainer_id?: string
+          updated_at?: string
+          value_chain?: Database["public"]["Enums"]["value_chain"]
+          venue?: string
+          ward?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_sessions_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      wards: {
+        Row: {
+          constituency: Database["public"]["Enums"]["constituency"]
+          created_at: string
+          id: string
+          name: string
+          ward_code: string | null
+        }
+        Insert: {
+          constituency: Database["public"]["Enums"]["constituency"]
+          created_at?: string
+          id?: string
+          name: string
+          ward_code?: string | null
+        }
+        Update: {
+          constituency?: Database["public"]["Enums"]["constituency"]
+          created_at?: string
+          id?: string
+          name?: string
+          ward_code?: string | null
         }
         Relationships: []
       }
