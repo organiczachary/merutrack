@@ -4,15 +4,17 @@ import { MobileNavigation } from '@/components/navigation/MobileNavigation';
 import { TrainingSessionsList } from '@/components/training/TrainingSessionsList';
 import { TrainingCalendar } from '@/components/training/TrainingCalendar';
 import { TrainingDetails } from '@/components/training/TrainingDetails';
-import { Calendar, List, BarChart3, Users } from 'lucide-react';
+import { Calendar, List, BarChart3, Users, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 type ViewMode = 'dashboard' | 'list' | 'calendar' | 'details';
 
 const Dashboard = () => {
   const { profile } = useAuth();
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<ViewMode>('dashboard');
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
 
@@ -58,7 +60,7 @@ const Dashboard = () => {
               </div>
 
               {/* Quick Actions */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
                 <Card 
                   className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group"
                   onClick={() => setViewMode('list')}
@@ -92,6 +94,19 @@ const Dashboard = () => {
                     </div>
                     <h3 className="font-semibold text-slate-800 mb-1">Reports</h3>
                     <p className="text-sm text-slate-600">View analytics</p>
+                  </CardContent>
+                </Card>
+
+                <Card 
+                  className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group"
+                  onClick={() => navigate('/modules')}
+                >
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-indigo-200 transition-colors">
+                      <BookOpen className="w-6 h-6 text-indigo-600" />
+                    </div>
+                    <h3 className="font-semibold text-slate-800 mb-1">Modules</h3>
+                    <p className="text-sm text-slate-600">Training content</p>
                   </CardContent>
                 </Card>
 

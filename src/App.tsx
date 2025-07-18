@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import AdminUserManagement from "./pages/AdminUserManagement";
+import ModuleManagement from "./pages/ModuleManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,11 @@ const App = () => (
             <Route path="/admin/users" element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <AdminUserManagement />
+              </ProtectedRoute>
+            } />
+            <Route path="/modules" element={
+              <ProtectedRoute>
+                <ModuleManagement />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
