@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_reports: {
+        Row: {
+          content: Json
+          created_at: string
+          date_range_end: string
+          date_range_start: string
+          filters: Json | null
+          generated_by: string
+          id: string
+          report_type: string
+          updated_at: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          date_range_end: string
+          date_range_start: string
+          filters?: Json | null
+          generated_by: string
+          id?: string
+          report_type: string
+          updated_at?: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          date_range_end?: string
+          date_range_start?: string
+          filters?: Json | null
+          generated_by?: string
+          id?: string
+          report_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       attendance: {
         Row: {
           attendance_status: string

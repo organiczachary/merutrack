@@ -12,6 +12,8 @@ import Dashboard from "./pages/Dashboard";
 import AdminUserManagement from "./pages/AdminUserManagement";
 import ModuleManagement from "./pages/ModuleManagement";
 import PhotoManagement from "./pages/PhotoManagement";
+import AIReports from "./pages/AIReports";
+import AIDashboard from "./pages/AIDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +50,16 @@ const App = () => (
             <Route path="/photos" element={
               <ProtectedRoute>
                 <PhotoManagement />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/ai-reports" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AIReports />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/ai-dashboard" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AIDashboard />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

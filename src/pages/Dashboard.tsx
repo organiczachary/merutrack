@@ -4,7 +4,7 @@ import { MobileNavigation } from '@/components/navigation/MobileNavigation';
 import { TrainingSessionsList } from '@/components/training/TrainingSessionsList';
 import { TrainingCalendar } from '@/components/training/TrainingCalendar';
 import { TrainingDetails } from '@/components/training/TrainingDetails';
-import { Calendar, List, BarChart3, Users, BookOpen, Camera } from 'lucide-react';
+import { Calendar, List, BarChart3, Users, BookOpen, Camera, Brain, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
@@ -60,7 +60,7 @@ const Dashboard = () => {
               </div>
 
               {/* Quick Actions */}
-              <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+              <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-6">
                 <Card 
                   className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group"
                   onClick={() => setViewMode('list')}
@@ -122,6 +122,36 @@ const Dashboard = () => {
                     <p className="text-sm text-slate-600">Session media</p>
                   </CardContent>
                 </Card>
+
+                {profile?.role === 'admin' && (
+                  <>
+                    <Card 
+                      className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group"
+                      onClick={() => navigate('/admin/ai-dashboard')}
+                    >
+                      <CardContent className="p-6 text-center">
+                        <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-emerald-200 transition-colors">
+                          <Brain className="w-6 h-6 text-emerald-600" />
+                        </div>
+                        <h3 className="font-semibold text-slate-800 mb-1">AI Dashboard</h3>
+                        <p className="text-sm text-slate-600">Live insights</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card 
+                      className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group"
+                      onClick={() => navigate('/admin/ai-reports')}
+                    >
+                      <CardContent className="p-6 text-center">
+                        <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-violet-200 transition-colors">
+                          <Sparkles className="w-6 h-6 text-violet-600" />
+                        </div>
+                        <h3 className="font-semibold text-slate-800 mb-1">AI Reports</h3>
+                        <p className="text-sm text-slate-600">Smart analytics</p>
+                      </CardContent>
+                    </Card>
+                  </>
+                )}
 
                 <Card className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group">
                   <CardContent className="p-6 text-center">
