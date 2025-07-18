@@ -201,6 +201,36 @@ export type Database = {
           },
         ]
       }
+      profile_audit: {
+        Row: {
+          changed_at: string
+          changed_by: string
+          id: string
+          new_role: Database["public"]["Enums"]["user_role"]
+          old_role: Database["public"]["Enums"]["user_role"] | null
+          reason: string | null
+          user_id: string
+        }
+        Insert: {
+          changed_at?: string
+          changed_by: string
+          id?: string
+          new_role: Database["public"]["Enums"]["user_role"]
+          old_role?: Database["public"]["Enums"]["user_role"] | null
+          reason?: string | null
+          user_id: string
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string
+          id?: string
+          new_role?: Database["public"]["Enums"]["user_role"]
+          old_role?: Database["public"]["Enums"]["user_role"] | null
+          reason?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           assigned_value_chains:
