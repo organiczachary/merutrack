@@ -1,12 +1,15 @@
+
 import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { LogOut, User, MapPin, Briefcase, Shield } from 'lucide-react';
+import { LogOut, User, MapPin, Briefcase, Shield, Users, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
   const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const getRoleColor = (role: string) => {
     switch (role) {
@@ -139,12 +142,16 @@ const Dashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Button variant="outline" className="justify-start">
-                  <User className="w-4 h-4 mr-2" />
+                <Button 
+                  variant="outline" 
+                  className="justify-start"
+                  onClick={() => navigate('/admin/users')}
+                >
+                  <Users className="w-4 h-4 mr-2" />
                   Manage Users
                 </Button>
                 <Button variant="outline" className="justify-start">
-                  <Briefcase className="w-4 h-4 mr-2" />
+                  <Settings className="w-4 h-4 mr-2" />
                   System Settings
                 </Button>
               </div>
