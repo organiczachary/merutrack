@@ -11,6 +11,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import AdminUserManagement from "./pages/AdminUserManagement";
 import ModuleManagement from "./pages/ModuleManagement";
+import PhotoManagement from "./pages/PhotoManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,11 @@ const App = () => (
             <Route path="/modules" element={
               <ProtectedRoute>
                 <ModuleManagement />
+              </ProtectedRoute>
+            } />
+            <Route path="/photos" element={
+              <ProtectedRoute>
+                <PhotoManagement />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

@@ -4,7 +4,7 @@ import { MobileNavigation } from '@/components/navigation/MobileNavigation';
 import { TrainingSessionsList } from '@/components/training/TrainingSessionsList';
 import { TrainingCalendar } from '@/components/training/TrainingCalendar';
 import { TrainingDetails } from '@/components/training/TrainingDetails';
-import { Calendar, List, BarChart3, Users, BookOpen } from 'lucide-react';
+import { Calendar, List, BarChart3, Users, BookOpen, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
@@ -107,6 +107,19 @@ const Dashboard = () => {
                     </div>
                     <h3 className="font-semibold text-slate-800 mb-1">Modules</h3>
                     <p className="text-sm text-slate-600">Training content</p>
+                  </CardContent>
+                </Card>
+
+                <Card 
+                  className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group"
+                  onClick={() => navigate('/photos')}
+                >
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-pink-200 transition-colors">
+                      <Camera className="w-6 h-6 text-pink-600" />
+                    </div>
+                    <h3 className="font-semibold text-slate-800 mb-1">Photos</h3>
+                    <p className="text-sm text-slate-600">Session media</p>
                   </CardContent>
                 </Card>
 
