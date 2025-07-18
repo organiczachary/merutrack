@@ -93,7 +93,7 @@ export const TrainingCalendar = () => {
   };
 
   if (showScheduler) {
-    return <TrainingScheduler onBack={() => setShowScheduler(false)} />;
+    return <TrainingScheduler />;
   }
 
   const days = getDaysInMonth();
@@ -203,7 +203,7 @@ export const TrainingCalendar = () => {
                               {format(day, 'd')}
                             </div>
                             <div className="space-y-1">
-                              {daySession.slice(0, 2).map((session, i) => (
+                              {daySessions.slice(0, 2).map((session, i) => (
                                 <div
                                   key={i}
                                   className={`
@@ -215,9 +215,9 @@ export const TrainingCalendar = () => {
                                   {session.title}
                                 </div>
                               ))}
-                              {daySession.length > 2 && (
+                              {daySessions.length > 2 && (
                                 <div className="text-xs text-slate-600">
-                                  +{daySession.length - 2} more
+                                  +{daySessions.length - 2} more
                                 </div>
                               )}
                             </div>

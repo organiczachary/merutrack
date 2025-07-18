@@ -116,7 +116,7 @@ export const TrainingSessionsList = () => {
   };
 
   if (showScheduler) {
-    return <TrainingScheduler onBack={() => setShowScheduler(false)} />;
+    return <TrainingScheduler />;
   }
 
   if (isLoading) {

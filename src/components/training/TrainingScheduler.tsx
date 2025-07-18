@@ -279,9 +279,9 @@ export const TrainingScheduler = () => {
                       <SelectValue placeholder="Select constituency" />
                     </SelectTrigger>
                     <SelectContent>
-                      {CONSTITUENCIES.map((const) => (
-                        <SelectItem key={const.value} value={const.value}>
-                          {const.label}
+                      {CONSTITUENCIES.map((constituency) => (
+                        <SelectItem key={constituency.value} value={constituency.value}>
+                          {constituency.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
