@@ -41,11 +41,11 @@ const AdminUserManagement: React.FC = () => {
       }
 
       if (selectedRole !== 'all') {
-        query = query.eq('role', selectedRole);
+        query = query.eq('role', selectedRole as 'admin' | 'trainer' | 'supervisor');
       }
 
       if (selectedConstituency !== 'all') {
-        query = query.eq('constituency', selectedConstituency);
+        query = query.eq('constituency', selectedConstituency as 'igembe_south' | 'igembe_central' | 'igembe_north' | 'tigania_west' | 'tigania_east' | 'north_imenti' | 'buuri' | 'central_imenti' | 'south_imenti');
       }
 
       if (selectedStatus !== 'all') {
