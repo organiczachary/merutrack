@@ -14,7 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          assigned_value_chains:
+            | Database["public"]["Enums"]["value_chain"][]
+            | null
+          constituency: Database["public"]["Enums"]["constituency"] | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          is_active: boolean
+          phone: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+          user_id: string
+          ward: string | null
+        }
+        Insert: {
+          assigned_value_chains?:
+            | Database["public"]["Enums"]["value_chain"][]
+            | null
+          constituency?: Database["public"]["Enums"]["constituency"] | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          is_active?: boolean
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id: string
+          ward?: string | null
+        }
+        Update: {
+          assigned_value_chains?:
+            | Database["public"]["Enums"]["value_chain"][]
+            | null
+          constituency?: Database["public"]["Enums"]["constituency"] | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          is_active?: boolean
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id?: string
+          ward?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +73,18 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      constituency:
+        | "igembe_south"
+        | "igembe_central"
+        | "igembe_north"
+        | "tigania_west"
+        | "tigania_east"
+        | "north_imenti"
+        | "buuri"
+        | "central_imenti"
+        | "south_imenti"
+      user_role: "admin" | "trainer" | "supervisor"
+      value_chain: "banana" | "avocado" | "dairy" | "irish_potato" | "coffee"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +211,20 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      constituency: [
+        "igembe_south",
+        "igembe_central",
+        "igembe_north",
+        "tigania_west",
+        "tigania_east",
+        "north_imenti",
+        "buuri",
+        "central_imenti",
+        "south_imenti",
+      ],
+      user_role: ["admin", "trainer", "supervisor"],
+      value_chain: ["banana", "avocado", "dairy", "irish_potato", "coffee"],
+    },
   },
 } as const

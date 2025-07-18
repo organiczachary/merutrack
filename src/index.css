@@ -1,6 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* Premium Silicon Valley Color Palette */
+    --background: 210 20% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    
+    /* Primary - Emerald/Green */
+    --primary: 160 84% 39%;
+    --primary-glow: 160 84% 55%;
+    --primary-foreground: 0 0% 98%;
+    
+    /* Secondary - Teal */
+    --secondary: 186 100% 94%;
+    --secondary-foreground: 186 100% 20%;
+    
+    /* Accent - Coral Orange */
+    --accent: 16 100% 67%;
+    --accent-light: 16 100% 85%;
+    --accent-foreground: 0 0% 9%;
+    
+    /* Muted colors */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    /* Border and input */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 160 84% 39%;
+    
+    /* Destructive */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Glass effects */
+    --glass-bg: 160 84% 39% / 0.1;
+    --glass-border: 160 84% 39% / 0.2;
+    --glass-shadow: 160 84% 39% / 0.15;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(160 84% 39%), hsl(186 100% 36%));
+    --gradient-glass: linear-gradient(135deg, 
+      hsla(160, 84%, 39%, 0.1) 0%, 
+      hsla(186, 100%, 36%, 0.05) 100%);
+    --gradient-glow: radial-gradient(circle at center, 
+      hsla(160, 84%, 55%, 0.3) 0%, 
+      transparent 70%);
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 160 84% 55%;
+    --primary-glow: 160 84% 70%;
+    --primary-foreground: 222.2 84% 4.9%;
+    
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --accent: 16 100% 67%;
+    --accent-light: 16 100% 50%;
+    --accent-foreground: 210 40% 98%;
+    
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 160 84% 55%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --glass-bg: 160 84% 55% / 0.1;
+    --glass-border: 160 84% 55% / 0.2;
+    --glass-shadow: 160 84% 55% / 0.25;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-inter;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-xl bg-white/10 border border-white/20 
+           shadow-[0_8px_32px_0_rgba(31,38,135,0.37)]
+           relative overflow-hidden;
+  }
+  
+  .glass-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-white/20 to-transparent 
+           pointer-events-none;
+  }
+  
+  .premium-glow {
+    @apply relative;
+  }
+  
+  .premium-glow::before {
+    content: '';
+    @apply absolute -inset-0.5 bg-gradient-to-r from-primary via-primary-glow to-primary
+           rounded-lg blur-sm opacity-30 -z-10;
+  }
+  
+  .auth-background {
+    background: linear-gradient(135deg, 
+      hsl(160 84% 39% / 0.05) 0%, 
+      hsl(186 100% 36% / 0.05) 50%,
+      hsl(16 100% 67% / 0.02) 100%);
+  }
+}
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
