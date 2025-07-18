@@ -1,206 +1,144 @@
 
-import React from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import React, { useState } from 'react';
+import { MobileNavigation } from '@/components/navigation/MobileNavigation';
+import { TrainingSessionsList } from '@/components/training/TrainingSessionsList';
+import { TrainingCalendar } from '@/components/training/TrainingCalendar';
+import { TrainingDetails } from '@/components/training/TrainingDetails';
+import { Calendar, List, BarChart3, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { LogOut, User, MapPin, Briefcase, Shield, Users, Settings } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useAuth } from '@/contexts/AuthContext';
 
-const Dashboard: React.FC = () => {
-  const { user, profile, signOut } = useAuth();
-  const navigate = useNavigate();
+type ViewMode = 'dashboard' | 'list' | 'calendar' | 'details';
 
-  const getRoleColor = (role: string) => {
-    switch (role) {
-      case 'admin':
-        return 'bg-destructive text-destructive-foreground';
-      case 'supervisor':
-        return 'bg-accent text-accent-foreground';
-      case 'trainer':
-        return 'bg-primary text-primary-foreground';
+const Dashboard = () => {
+  const { profile } = useAuth();
+  const [viewMode, setViewMode] = useState<ViewMode>('dashboard');
+  const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
+
+  const renderContent = () => {
+    switch (viewMode) {
+      case 'list':
+        return <TrainingSessionsList />;
+      case 'calendar':
+        return <TrainingCalendar />;
+      case 'details':
+        return selectedSessionId ? (
+          <TrainingDetails 
+            sessionId={selectedSessionId} 
+            onBack={() => setViewMode('list')} 
+          />
+        ) : (
+          <TrainingSessionsList />
+        );
       default:
-        return 'bg-secondary text-secondary-foreground';
+        return (
+          <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 p-4">
+            <div className="max-w-6xl mx-auto">
+              {/* Welcome Section */}
+              <div className="backdrop-blur-md bg-white/40 border border-white/20 rounded-2xl shadow-xl p-6 mb-6 animate-fade-in">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                    <Users className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-bold text-slate-800 mb-1">
+                      Welcome back, {profile?.full_name?.split(' ')[0] || 'User'}!
+                    </h1>
+                    <p className="text-slate-600">
+                      {profile?.role === 'admin' 
+                        ? 'Manage your training programs and monitor system performance.'
+                        : profile?.role === 'supervisor'
+                        ? 'Monitor training activities in your constituency.'
+                        : 'Manage your training sessions and participants.'
+                      }
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <Card 
+                  className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group"
+                  onClick={() => setViewMode('list')}
+                >
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-200 transition-colors">
+                      <List className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <h3 className="font-semibold text-slate-800 mb-1">Training Sessions</h3>
+                    <p className="text-sm text-slate-600">View all sessions</p>
+                  </CardContent>
+                </Card>
+
+                <Card 
+                  className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group"
+                  onClick={() => setViewMode('calendar')}
+                >
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-emerald-200 transition-colors">
+                      <Calendar className="w-6 h-6 text-emerald-600" />
+                    </div>
+                    <h3 className="font-semibold text-slate-800 mb-1">Calendar</h3>
+                    <p className="text-sm text-slate-600">Schedule view</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-purple-200 transition-colors">
+                      <BarChart3 className="w-6 h-6 text-purple-600" />
+                    </div>
+                    <h3 className="font-semibold text-slate-800 mb-1">Reports</h3>
+                    <p className="text-sm text-slate-600">View analytics</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="backdrop-blur-sm bg-white/60 border-white/30 hover:bg-white/70 transition-all duration-300 cursor-pointer group">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-orange-200 transition-colors">
+                      <Users className="w-6 h-6 text-orange-600" />
+                    </div>
+                    <h3 className="font-semibold text-slate-800 mb-1">Participants</h3>
+                    <p className="text-sm text-slate-600">Manage attendance</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Recent Activity */}
+              <Card className="backdrop-blur-sm bg-white/60 border-white/30">
+                <CardHeader>
+                  <CardTitle className="text-lg text-slate-800">Recent Activity</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-8">
+                    <Calendar className="w-16 h-16 text-slate-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-slate-700 mb-2">No recent activity</h3>
+                    <p className="text-slate-600 mb-4">
+                      Start by scheduling your first training session or viewing your calendar.
+                    </p>
+                    <Button
+                      onClick={() => setViewMode('list')}
+                      className="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white"
+                    >
+                      Get Started
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        );
     }
   };
 
-  const formatRole = (role: string) => {
-    return role.charAt(0).toUpperCase() + role.slice(1);
-  };
-
-  const formatConstituency = (constituency?: string) => {
-    if (!constituency) return 'Not assigned';
-    return constituency.split('_').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
-  };
-
-  const formatValueChains = (chains?: string[]) => {
-    if (!chains || chains.length === 0) return 'None assigned';
-    return chains.map(chain => 
-      chain.split('_').map(word => 
-        word.charAt(0).toUpperCase() + word.slice(1)
-      ).join(' ')
-    ).join(', ');
-  };
-
   return (
-    <div className="min-h-screen auth-background p-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back, {profile?.full_name || user?.email}</p>
-          </div>
-          <Button
-            onClick={signOut}
-            variant="outline"
-            className="glass-card border-glass-border hover:bg-destructive/10"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Sign Out
-          </Button>
-        </div>
-
-        {/* Profile Card */}
-        <Card className="glass-card border-glass-border mb-8">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <User className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <CardTitle className="text-xl">{profile?.full_name || 'User'}</CardTitle>
-                  <CardDescription>{user?.email}</CardDescription>
-                </div>
-              </div>
-              <Badge className={getRoleColor(profile?.role || 'trainer')}>
-                <Shield className="w-3 h-3 mr-1" />
-                {formatRole(profile?.role || 'trainer')}
-              </Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  Location
-                </div>
-                <div className="space-y-1">
-                  <p className="font-medium">Constituency: {formatConstituency(profile?.constituency)}</p>
-                  <p className="text-sm text-muted-foreground">Ward: {profile?.ward || 'Not assigned'}</p>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <Briefcase className="w-4 h-4 mr-2" />
-                  Value Chains
-                </div>
-                <p className="font-medium">{formatValueChains(profile?.assigned_value_chains)}</p>
-              </div>
-            </div>
-            {profile?.phone && (
-              <div className="space-y-2">
-                <div className="text-sm text-muted-foreground">Phone</div>
-                <p className="font-medium">{profile.phone}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="glass-card border-glass-border">
-            <CardContent className="p-6">
-              <div className="text-2xl font-bold text-primary mb-2">0</div>
-              <div className="text-sm text-muted-foreground">Active Trainings</div>
-            </CardContent>
-          </Card>
-          <Card className="glass-card border-glass-border">
-            <CardContent className="p-6">
-              <div className="text-2xl font-bold text-accent mb-2">0</div>
-              <div className="text-sm text-muted-foreground">Completed Sessions</div>
-            </CardContent>
-          </Card>
-          <Card className="glass-card border-glass-border">
-            <CardContent className="p-6">
-              <div className="text-2xl font-bold text-secondary-foreground mb-2">0</div>
-              <div className="text-sm text-muted-foreground">Total Participants</div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Role-specific sections */}
-        {profile?.role === 'admin' && (
-          <Card className="glass-card border-glass-border">
-            <CardHeader>
-              <CardTitle>Admin Panel</CardTitle>
-              <CardDescription>Manage users, trainings, and system settings</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Button 
-                  variant="outline" 
-                  className="justify-start"
-                  onClick={() => navigate('/admin/users')}
-                >
-                  <Users className="w-4 h-4 mr-2" />
-                  Manage Users
-                </Button>
-                <Button variant="outline" className="justify-start">
-                  <Settings className="w-4 h-4 mr-2" />
-                  System Settings
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {profile?.role === 'supervisor' && (
-          <Card className="glass-card border-glass-border">
-            <CardHeader>
-              <CardTitle>Supervisor Dashboard</CardTitle>
-              <CardDescription>Monitor trainings and trainer performance</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Button variant="outline" className="justify-start">
-                  <Briefcase className="w-4 h-4 mr-2" />
-                  View Reports
-                </Button>
-                <Button variant="outline" className="justify-start">
-                  <User className="w-4 h-4 mr-2" />
-                  Monitor Trainers
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {profile?.role === 'trainer' && (
-          <Card className="glass-card border-glass-border">
-            <CardHeader>
-              <CardTitle>Trainer Dashboard</CardTitle>
-              <CardDescription>Manage your training sessions and participants</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Button variant="outline" className="justify-start">
-                  <Briefcase className="w-4 h-4 mr-2" />
-                  My Trainings
-                </Button>
-                <Button variant="outline" className="justify-start">
-                  <User className="w-4 h-4 mr-2" />
-                  Participants
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50">
+      <MobileNavigation />
+      <main className="lg:ml-64">
+        {renderContent()}
+      </main>
     </div>
   );
 };
